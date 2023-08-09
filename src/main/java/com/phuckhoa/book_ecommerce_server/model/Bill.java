@@ -1,0 +1,20 @@
+package com.phuckhoa.book_ecommerce_server.model;
+
+import java.util.Date;
+
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+@Setter
+public class Bill {
+    private long id;
+    private int price;
+    private int payment;
+    private Date created_at;
+    private Date updated_at;
+}
