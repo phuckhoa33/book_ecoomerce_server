@@ -68,7 +68,7 @@ public class AuthController {
         HashMap<String, Object> result = new HashMap<>();
         try {
 
-            String data = userService.sendEmail(request.getEmail());
+            String data = userService.sendEmail(request);
             result.put("success", true);
             result.put("message", "Success to call API GetAllUsers");
             result.put("data", data);
@@ -82,7 +82,7 @@ public class AuthController {
     }
 
     @PutMapping()
-    ResponseEntity<?> sesetPassword(@RequestBody User user) {
+    ResponseEntity<?> resetPassword(@RequestBody User user) {
         HashMap<String, Object> result = new HashMap<>();
         try {
 

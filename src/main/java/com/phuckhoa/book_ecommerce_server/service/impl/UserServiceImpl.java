@@ -4,9 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-
-import com.phuckhoa.book_ecommerce_server.DTO.Email;
 import com.phuckhoa.book_ecommerce_server.DTO.EmailDetailsDTO;
+import com.phuckhoa.book_ecommerce_server.DTO.EmailInputDataDTO;
 import com.phuckhoa.book_ecommerce_server.DTO.PaymentEmailDetailsDTO;
 import com.phuckhoa.book_ecommerce_server.mapper.UserMapper;
 import com.phuckhoa.book_ecommerce_server.model.User;
@@ -38,8 +37,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String register(User user) {
-        Email email = userMapper.checkEmailExist(user.getEmail());
-        if (email != null) {
+        User oldUser = userMapper.checkEmailExist(user.getEmail());
+        if (oldUser != null) {
             return "Account is exist";
         }
         user.setId(extraService.createRandomId(10));
@@ -49,25 +48,28 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public String login(User user) {
-        Email email = userMapper.checkEmailExist(user.getEmail());
-        if (email == null) {
+        User oldUser = userMapper.checkEmailExist(user.getEmail());
+        if (oldUser == null) {
             return "Account is not exist";
         }
-        List<User> users = this.getAllUsers();
-        if (users.get(0).getPassword() != user.getPassword()) {
+
+        System.out.println("Olduser" + oldUser.getPassword());
+
+        if (!oldUser.getPassword().matches(user.getPassword())) {
             return "Password is not match";
         }
         return "Login is successfuly";
     }
 
     @Override
-    public String sendEmail(String email) {
+    public String sendEmail(EmailInputDataDTO request) {
         String message = "Send Email is successfully";
         try {
             PaymentEmailDetailsDTO payment = new PaymentEmailDetailsDTO();
             EmailDetailsDTO details = new EmailDetailsDTO();
-            details.setRecipient(email);
+            details.setRecipient(request.getEmail());
             details.setSubject(message);
+            payment.setEmailDetails(details);
             emailService.sendSimpleMail(payment, "resetPasswordLetter");
         } catch (Exception e) {
             message = "Send email is failed";
@@ -86,6 +88,16 @@ public class UserServiceImpl implements UserService {
             message = "Update user is failed";
         }
         return message;
+    }
+
+    @Override
+    public User getUserById(String userid) {
+        return userMapper.getUser(Long.parseLong(userid));
+    }
+
+    @Override
+    public User getUserByEmail(String email) {
+        return userMapper.checkEmailExist(email);
     }
 
 }

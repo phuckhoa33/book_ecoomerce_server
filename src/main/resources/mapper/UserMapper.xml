@@ -17,12 +17,6 @@
         <result column="LASTNAME" property="lastname"></result>
 		<result column="ADDRESS" property="address"></result>
     </resultMap>
-    <resultMap id="userResultMapGetOnlyEmail"
-        type="com.phuckhoa.book_ecommerce_server.DTO.Email"
-    >
-		<result column="EMAIL" property="email"></result>
-    </resultMap>
-
     <select id="getAllUsers" resultMap="userResultMap">
         SELECT  u.ID,
                 u.PASSWORD,
@@ -53,9 +47,18 @@
         WHERE u.ID = #{userid}
     </select>
 
-    <select id="checkEmailExist" resultMap="userResultMapGetOnlyEmail">
+    <select id="checkEmailExist" resultMap="userResultMap">
         SELECT
-            u.EMAIL
+            u.ID,
+            u.PASSWORD,
+            u.AVATAR,
+            u.EMAIL,
+            u.ROLEID,
+            u.PHONE,
+            u.BIRTHDAY,
+            u.FIRSTNAME,
+            u.LASTNAME,
+            u.ADDRESS
         FROM user u 
         WHERE u.EMAIL = #{email}
         LIMIT 1
