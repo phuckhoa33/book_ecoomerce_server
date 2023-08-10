@@ -15,4 +15,8 @@ public interface UserMapper {
     void createNewUser(User user);
 
     Email checkEmailExist(@Param("email") String email);
+
+    User getUser(@Param("userid") Long userid);
+
+    void updateUser(User user, @Param("userid") Long userid);
 }

@@ -18,7 +18,8 @@
                 u.start_date,
                 u.start_date,
                 u.percent,
-                u.title
+                u.title,
+                u.limit
         FROM discount u 
         WHERE 1 = 1
     </select>
@@ -28,9 +29,21 @@
                 u.start_date,
                 u.start_date,
                 u.percent,
-                u.title
+                u.title,
+                u.limit
         FROM discount u 
-        WHERE discount.id=#{discountid}
+        WHERE u.title=#{title}
+    </select>
+
+    <select id="getDiscountByDiscountid">
+        SELECT  u.id,
+                u.start_date,
+                u.start_date,
+                u.percent,
+                u.title,
+                u.limit
+        FROM discount u 
+        WHERE u.id=#{discountid}
     </select>
 
     <insert id="createDiscount">
@@ -39,14 +52,15 @@
                 start_date,
                 end_date,
                 percent,
-                title
+                title,
+                `limit`
 		) VALUES (
 		        #{id},
                 #{start_date},
                 #{end_date},
                 #{percent},
-                #{titl},
-
+                #{title},
+                #{limit}
 		)
 
 

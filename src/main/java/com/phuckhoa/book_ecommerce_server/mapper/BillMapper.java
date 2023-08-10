@@ -8,10 +8,10 @@ import org.apache.ibatis.annotations.Param;
 import com.phuckhoa.book_ecommerce_server.model.Bill;
 
 @Mapper
-public interface BIllMapper {
+public interface BillMapper {
     List<Bill> getAllBills(@Param("userid") String userid);
 
-    Bill getBill(@Param("billid") String billid);
+    Bill getBill(@Param("billid") String billid, @Param("userid") String userid);
 
     void paidBill(Bill bill);
 

@@ -31,7 +31,7 @@
 		        #{id},
                 #{bookid},
                 #{billid},
-                #{quantit},
+                #{quantity}
 
 		)
 

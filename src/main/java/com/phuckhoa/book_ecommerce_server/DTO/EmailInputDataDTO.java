@@ -1,4 +1,4 @@
-package com.phuckhoa.book_ecommerce_server.model;
+package com.phuckhoa.book_ecommerce_server.DTO;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -9,8 +9,6 @@ import lombok.Setter;
 @NoArgsConstructor
 @Getter
 @Setter
-public class BillDiscount {
-    private long id;
-    private String discountid;
-    private long billid;
+public class EmailInputDataDTO {
+    private String email;
 }

@@ -13,4 +13,7 @@ public interface UserService {
 
     String login(User user);
 
+    String sendEmail(String email);
+
+    String updateUser(User user);
 }

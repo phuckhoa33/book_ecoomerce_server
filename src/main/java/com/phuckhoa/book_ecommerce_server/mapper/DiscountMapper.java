@@ -11,7 +11,9 @@ import com.phuckhoa.book_ecommerce_server.model.Discount;
 public interface DiscountMapper {
     List<Discount> getAllDiscounts();
 
-    Discount getDiscount(@Param("discountid") String discountid);
+    Discount getDiscount(@Param("title") String title);
+
+    Discount getDiscountByDiscountid(@Param("discountid") String discountid);
 
     void createDiscount(Discount discount);
 

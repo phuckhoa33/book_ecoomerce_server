@@ -32,7 +32,7 @@
                 u.created_at
 
         FROM bill u
-        WHERE u.id=#{billid}
+        WHERE u.id=#{billid} and u.userid=#{userid}
     </select>
 
     <insert id="paidBill">
@@ -45,7 +45,7 @@
 		        #{id},
                 #{price},
                 #{userid},
-                #{paymen},
+                #{payment}
 
 		)
 

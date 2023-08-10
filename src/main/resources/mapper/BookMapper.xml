@@ -53,6 +53,21 @@
         WHERE u.title = #{title}
     </select>
 
+    <select id="getBookDependById" resultMap="bookResultMap">
+        SELECT  u.id,
+                u.title,
+                u.description,
+                u.image,
+                u.price,
+                u.author,
+                u.quantity,
+                u.madeby,
+                u.publisher,
+                u.supplier
+        FROM book u 
+        WHERE u.id = #{id}
+    </select>
+
     <select id="getBooksDependOnCategory" resultMap="bookResultMap">
         SELECT  b.id,
                 b.title,

@@ -17,5 +17,7 @@ public interface BookMapper {
 
     Book getBook(@Param("title") String title);
 
+    Book getBookDependById(@Param("id") Long id);
+
     void createBook(Book book);
 }

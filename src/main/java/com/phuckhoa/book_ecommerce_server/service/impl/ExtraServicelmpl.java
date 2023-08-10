@@ -1,5 +1,9 @@
 package com.phuckhoa.book_ecommerce_server.service.impl;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Random;
 import java.util.Set;
@@ -33,6 +37,22 @@ public class ExtraServicelmpl implements ExtraService {
         }
 
         return true;
+    }
+
+    @Override
+    public Date convertFromStringBecomeDateFormat(String dateTemplate) {
+        DateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+        Date returnedDate;
+        try {
+            returnedDate = dateFormat.parse(dateTemplate);
+            return returnedDate;
+        } catch (ParseException e) {
+            // TODO Auto-generated catch block
+            e.printStackTrace();
+        }
+        ;
+
+        return null;
     }
 
 }

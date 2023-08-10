@@ -14,7 +14,8 @@ import lombok.Setter;
 public class Bill {
     private long id;
     private int price;
-    private int payment;
+    private long userid;
+    private String payment;
     private Date created_at;
     private Date updated_at;
 }
