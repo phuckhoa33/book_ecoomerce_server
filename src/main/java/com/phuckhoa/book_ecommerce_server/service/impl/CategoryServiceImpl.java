@@ -5,7 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.phuckhoa.book_ecommerce_server.DTO.CategoryAndBookCategoryResultDTO;
+import com.phuckhoa.book_ecommerce_server.mapper.BookCategoryMapper;
 import com.phuckhoa.book_ecommerce_server.mapper.CategoryMapper;
+import com.phuckhoa.book_ecommerce_server.model.BookCategory;
 import com.phuckhoa.book_ecommerce_server.model.Category;
 import com.phuckhoa.book_ecommerce_server.service.CategoryService;
 import com.phuckhoa.book_ecommerce_server.service.ExtraService;
@@ -14,6 +17,9 @@ import com.phuckhoa.book_ecommerce_server.service.ExtraService;
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
     CategoryMapper categoryMapper;
+
+    @Autowired
+    BookCategoryMapper bookCategoryMapper;
 
     @Autowired
     ExtraService extraService;
@@ -36,7 +42,9 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<Category> getCategories() {
-        return categoryMapper.getCategories();
+    public CategoryAndBookCategoryResultDTO getCategories() {
+        List<Category> categories =  categoryMapper.getCategories();
+        List<BookCategory> bookCategories = bookCategoryMapper.getBookCategories();
+        return new CategoryAndBookCategoryResultDTO(categories, bookCategories);
     }
 }
