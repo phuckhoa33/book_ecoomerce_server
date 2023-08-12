@@ -19,7 +19,7 @@ import com.phuckhoa.book_ecommerce_server.model.Book;
 import com.phuckhoa.book_ecommerce_server.service.BookService;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000/")
 @RequestMapping("/api/book")
 public class BookController {
     @Autowired

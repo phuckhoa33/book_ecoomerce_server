@@ -17,7 +17,7 @@ import com.phuckhoa.book_ecommerce_server.model.Category;
 import com.phuckhoa.book_ecommerce_server.service.CategoryService;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000/")
 @RequestMapping("/api/category")
 public class CategoryController {
     @Autowired

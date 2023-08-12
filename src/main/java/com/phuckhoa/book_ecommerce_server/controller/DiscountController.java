@@ -17,7 +17,7 @@ import com.phuckhoa.book_ecommerce_server.model.Discount;
 import com.phuckhoa.book_ecommerce_server.service.DiscountService;
 
 @RestController
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000/")
 @RequestMapping("/api/discount")
 public class DiscountController {
 

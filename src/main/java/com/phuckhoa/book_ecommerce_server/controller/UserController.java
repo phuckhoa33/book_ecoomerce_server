@@ -16,7 +16,7 @@ import com.phuckhoa.book_ecommerce_server.service.UserService;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin("*")
+@CrossOrigin("http://localhost:3000/")
 public class UserController {
     @Autowired
     UserService userService;
