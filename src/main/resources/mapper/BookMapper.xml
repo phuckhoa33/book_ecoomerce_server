@@ -131,5 +131,12 @@
 
 	</insert>
 
+    <update id='updateBookQuantity'>
+        UPDATE book 
+        SET quantity = #{quantity}
+        WHERE book.id = #{bookid}
+        
+    </update>
+
     
 </mapper>

@@ -20,4 +20,6 @@ public interface BookMapper {
     Book getBookDependById(@Param("id") Long id);
 
     void createBook(Book book);
+
+    void updateBookQuantity(@Param("quantity") String quantity, @Param("bookid") String bookid);
 }

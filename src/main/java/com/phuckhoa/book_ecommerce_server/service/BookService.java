@@ -18,4 +18,6 @@ public interface BookService {
 
     BookResultDTO createNewBook(Book book, List<Long> bookCategories);
 
+    String updateBookQuantity(String quantity, String bookid);
+
 }

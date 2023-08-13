@@ -95,4 +95,11 @@ public class BookServiceImpl implements BookService {
     public List<Book> getBooksDependOnAuthor(String author) {
         return bookMapper.getBooksDependOnAuthor(author);
     }
+
+    @Override
+    public String updateBookQuantity(String quantity, String bookid) {
+        bookMapper.updateBookQuantity(quantity, bookid);
+
+        return "Update quantity is successfully";
+    }
 }

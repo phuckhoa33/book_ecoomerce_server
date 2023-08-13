@@ -105,7 +105,7 @@
             FIRSTNAME = #{firstname},
             LASTNAME = #{lastname},
             ADDRESS = #{address}
-        WHERE id=#{userid}
+        WHERE id=#{id}
     </update>
 
     

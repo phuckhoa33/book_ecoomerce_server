@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.phuckhoa.book_ecommerce_server.DTO.BookInputData;
 import com.phuckhoa.book_ecommerce_server.DTO.BookResultDTO;
+import com.phuckhoa.book_ecommerce_server.DTO.UpdateQuatityDTO;
 import com.phuckhoa.book_ecommerce_server.model.Book;
 import com.phuckhoa.book_ecommerce_server.service.BookService;
 
@@ -107,6 +109,25 @@ public class BookController {
         try {
 
             List<Book> data = bookService.getBooksDependOnAuthor(author);
+            result.put("success", true);
+            result.put("message", "Success to call API create book");
+            result.put("data", data);
+        } catch (Exception e) {
+            result.put("success", false);
+            result.put("message", "Fail to call API create book");
+            result.put("data", null);
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+    @PatchMapping("/quantity")
+    ResponseEntity<?> updateQuantiy(@RequestBody UpdateQuatityDTO request) {
+        HashMap<String, Object> result = new HashMap<>();
+        try {
+
+            String data = bookService.updateBookQuantity(request.getQuantity(), request.getBookid());
             result.put("success", true);
             result.put("message", "Success to call API create book");
             result.put("data", data);

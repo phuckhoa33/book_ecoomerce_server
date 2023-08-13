@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
     public String updateUser(User user) {
         String message = "Update user is successfully";
         try {
-            userMapper.updateUser(user, user.getId());
+            userMapper.updateUser(user);
         } catch (Exception e) {
             // TODO: handle exception
             message = "Update user is failed";
