@@ -18,7 +18,7 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin("https://book-ecommerce-client-d13f867272e7.herokuapp.com/")
 public class UserController {
     @Autowired
     UserService userService;

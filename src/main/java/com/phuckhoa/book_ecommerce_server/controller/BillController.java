@@ -20,7 +20,7 @@ import com.phuckhoa.book_ecommerce_server.model.Bill;
 import com.phuckhoa.book_ecommerce_server.service.BillService;
 
 @RestController
-@CrossOrigin("http://localhost:3000/")
+@CrossOrigin("https://book-ecommerce-client-d13f867272e7.herokuapp.com/")
 @RequestMapping("/api/bill")
 public class BillController {
     @Autowired
