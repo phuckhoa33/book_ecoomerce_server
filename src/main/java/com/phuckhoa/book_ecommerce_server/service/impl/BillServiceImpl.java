@@ -70,7 +70,7 @@ public class BillServiceImpl implements BillService {
         Bill newBill = request.getBill();
         List<String> discountList = request.getDiscountList();
         List<BillItem> billItems = request.getBillItems();
-        final String[] message = { "Paid bill is successfully" };
+        final String[] message = { "Order bill is successfully" };
 
         Long billid = extraService.createRandomId(10);
 

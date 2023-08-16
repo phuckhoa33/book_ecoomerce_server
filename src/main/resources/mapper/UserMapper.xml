@@ -37,7 +37,7 @@
                 u.PASSWORD,
                 u.AVATAR,
                 u.EMAIL,
-                u.ROLEID,
+                u.ROLE,
                 u.PHONE,
                 u.BIRTHDAY,
                 u.FIRSTNAME,
@@ -53,7 +53,7 @@
             u.PASSWORD,
             u.AVATAR,
             u.EMAIL,
-            u.ROLEID,
+            u.ROLE,
             u.PHONE,
             u.BIRTHDAY,
             u.FIRSTNAME,
@@ -70,7 +70,7 @@
                 PASSWORD,
                 AVATAR,
                 EMAIL,
-                ROLEID,
+                ROLE,
                 PHONE,
                 BIRTHDAY,
                 FIRSTNAME,
@@ -81,7 +81,7 @@
 		, #{password}
 		, #{avatar}
 		, #{email}
-		, #{roleId}
+		, #{role}
 		, #{phone}
 		, #{birthday}
 		, #{firstname}
@@ -99,13 +99,12 @@
         SET PASSWORD = #{password},
             AVATAR = #{avatar},
             EMAIL = #{email},
-            ROLEID = #{roleid},
             PHONE = #{phone},
             BIRTHDAY = #{birthday},
             FIRSTNAME = #{firstname},
             LASTNAME = #{lastname},
             ADDRESS = #{address}
-        WHERE id=#{id}
+        WHERE ID=#{id}
     </update>
 
     

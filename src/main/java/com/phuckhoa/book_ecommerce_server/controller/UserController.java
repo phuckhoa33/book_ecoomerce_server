@@ -14,6 +14,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.phuckhoa.book_ecommerce_server.model.User;
 import com.phuckhoa.book_ecommerce_server.service.UserService;
 
+import jakarta.servlet.http.HttpServletRequest;
+
 @RestController
 @RequestMapping("/api/user")
 @CrossOrigin("http://localhost:3000/")
@@ -22,11 +24,12 @@ public class UserController {
     UserService userService;
 
     @GetMapping("{userid}")
-    ResponseEntity<?> getUserById(@PathVariable String userid) {
+    ResponseEntity<?> getUserById(@PathVariable String userid, HttpServletRequest request) {
         HashMap<String, Object> result = new HashMap<>();
         try {
 
-            User data = userService.getUserById(userid);
+            User data = (User) request.getAttribute("user");
+
             result.put("success", true);
             result.put("message", "Success to call API for bill process");
             result.put("data", data);
@@ -64,8 +67,7 @@ public class UserController {
         HashMap<String, Object> result = new HashMap<>();
         try {
 
-            userService.updateUser(user);
-            String data = "Update is successfully";
+            String data = userService.updateUser(user);
             result.put("success", true);
             result.put("message", "Success to call API for bill process");
             result.put("data", data);

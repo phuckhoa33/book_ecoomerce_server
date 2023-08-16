@@ -1,8 +1,10 @@
 package com.phuckhoa.book_ecommerce_server.service.impl;
 
+import java.nio.CharBuffer;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import com.phuckhoa.book_ecommerce_server.DTO.EmailDetailsDTO;
 import com.phuckhoa.book_ecommerce_server.DTO.EmailInputDataDTO;
@@ -25,6 +27,9 @@ public class UserServiceImpl implements UserService {
     @Autowired
     EmailService emailService;
 
+    @Autowired
+    PasswordEncoder passwordEncoder;
+
     @Override
     public List<User> getAllUsers() {
         return userMapper.getAllUsers();
@@ -42,6 +47,7 @@ public class UserServiceImpl implements UserService {
             return "Account is exist";
         }
         user.setId(extraService.createRandomId(10));
+        user.setPassword(passwordEncoder.encode(CharBuffer.wrap(user.getPassword())));
         this.createNewUser(user);
         return "Register is successfully";
     }
@@ -53,9 +59,7 @@ public class UserServiceImpl implements UserService {
             return "Account is not exist";
         }
 
-        System.out.println("Olduser" + oldUser.getPassword());
-
-        if (!oldUser.getPassword().matches(user.getPassword())) {
+        if (!passwordEncoder.matches(CharBuffer.wrap(user.getPassword()), oldUser.getPassword())) {
             return "Password is not match";
         }
         return "Login is successfuly";
@@ -82,9 +86,15 @@ public class UserServiceImpl implements UserService {
     public String updateUser(User user) {
         String message = "Update user is successfully";
         try {
+            if (user.getPassword().length() < 50) {
+                user.setPassword(passwordEncoder.encode(CharBuffer.wrap(user.getPassword())));
+            }
+            User findedUser = userMapper.checkEmailExist(user.getEmail());
+            user.setId(findedUser.getId());
             userMapper.updateUser(user);
         } catch (Exception e) {
             // TODO: handle exception
+            e.printStackTrace();
             message = "Update user is failed";
         }
         return message;

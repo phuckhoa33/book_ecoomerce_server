@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.phuckhoa.book_ecommerce_server.DTO.AuthenticationDTO;
 import com.phuckhoa.book_ecommerce_server.DTO.EmailInputDataDTO;
+import com.phuckhoa.book_ecommerce_server.config.JwtService;
 import com.phuckhoa.book_ecommerce_server.model.User;
 import com.phuckhoa.book_ecommerce_server.service.UserService;
 
@@ -23,13 +24,22 @@ public class AuthController {
     @Autowired
     UserService userService;
 
+    @Autowired
+    JwtService jwtService;
+
     @PostMapping("/register")
     ResponseEntity<?> register(@RequestBody User user) {
         HashMap<String, Object> result = new HashMap<>();
         try {
 
             String message = userService.register(user);
-            AuthenticationDTO data = new AuthenticationDTO(user, message);
+
+            String token = null;
+            if (message.equals("Register is successfully")) {
+
+                token = jwtService.generateToken(user);
+            }
+            AuthenticationDTO data = new AuthenticationDTO(token, message);
             result.put("success", true);
             result.put("message", "Success to call API register");
             result.put("data", data);
@@ -49,7 +59,12 @@ public class AuthController {
         try {
 
             String message = userService.login(user);
-            AuthenticationDTO data = new AuthenticationDTO(user, message);
+            String token = null;
+            if (message.equals("Login is successfuly")) {
+
+                token = jwtService.generateToken(user);
+            }
+            AuthenticationDTO data = new AuthenticationDTO(token, message);
             result.put("success", true);
             result.put("message", "Success to call API GetAllUsers");
             result.put("data", data);

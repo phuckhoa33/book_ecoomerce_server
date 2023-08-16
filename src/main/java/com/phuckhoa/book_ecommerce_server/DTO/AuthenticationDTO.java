@@ -1,17 +1,15 @@
 package com.phuckhoa.book_ecommerce_server.DTO;
 
-import com.phuckhoa.book_ecommerce_server.model.User;
-
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+@AllArgsConstructor
+@NoArgsConstructor
 @Getter
 @Setter
-public class AuthenticationDTO extends ResultDTO {
-    User user;
-
-    public AuthenticationDTO(User user, String message) {
-        this.user = user;
-        this.setMessage(message);
-    }
+public class AuthenticationDTO {
+    private String token;
+    private String message;
 }
