@@ -14,11 +14,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.phuckhoa.book_ecommerce_server.model.User;
 import com.phuckhoa.book_ecommerce_server.service.UserService;
 
+import io.micrometer.common.lang.NonNull;
 import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 @RequestMapping("/api/user")
-@CrossOrigin("https://book-ecommerce-client-d13f867272e7.herokuapp.com/")
+@CrossOrigin("*")
 public class UserController {
     @Autowired
     UserService userService;
@@ -36,6 +37,25 @@ public class UserController {
         } catch (Exception e) {
             result.put("success", false);
             result.put("message", "Fail to call API for bill process");
+            result.put("data", null);
+            e.printStackTrace();
+        }
+
+        return ResponseEntity.ok(result);
+    }
+
+    @GetMapping("/getUser")
+    public ResponseEntity<?> getUser(@NonNull HttpServletRequest request) {
+        HashMap<String, Object> result = new HashMap<>();
+
+        try {
+            result.put("success", true);
+            result.put("message", "Success to call api doInsertUser");
+            result.put("data", request.getAttribute("user"));
+        } catch (Exception e) {
+            System.out.println(e);
+            result.put("success", false);
+            result.put("message", "Fail to call api doInsertUser");
             result.put("data", null);
             e.printStackTrace();
         }

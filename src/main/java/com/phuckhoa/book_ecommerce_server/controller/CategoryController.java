@@ -17,7 +17,7 @@ import com.phuckhoa.book_ecommerce_server.model.Category;
 import com.phuckhoa.book_ecommerce_server.service.CategoryService;
 
 @RestController
-@CrossOrigin("https://book-ecommerce-client-d13f867272e7.herokuapp.com/")
+@CrossOrigin("*")
 @RequestMapping("/api/category")
 public class CategoryController {
     @Autowired

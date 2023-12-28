@@ -2,6 +2,7 @@ package com.phuckhoa.book_ecommerce_server.service;
 
 import java.util.List;
 
+import com.phuckhoa.book_ecommerce_server.DTO.AuthenticationDTO;
 import com.phuckhoa.book_ecommerce_server.DTO.EmailInputDataDTO;
 import com.phuckhoa.book_ecommerce_server.model.User;
 
@@ -10,9 +11,9 @@ public interface UserService {
 
     void createNewUser(User user);
 
-    String register(User user);
+    AuthenticationDTO register(User user);
 
-    String login(User user);
+    AuthenticationDTO login(User user);
 
     String sendEmail(EmailInputDataDTO request);
 

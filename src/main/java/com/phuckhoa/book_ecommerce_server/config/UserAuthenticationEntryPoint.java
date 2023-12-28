@@ -9,7 +9,7 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.phuckhoa.book_ecommerce_server.DTO.ErrorDto;
+import com.phuckhoa.book_ecommerce_server.DTO.ErrorMessageResponse;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,8 @@ public class UserAuthenticationEntryPoint implements AuthenticationEntryPoint {
             AuthenticationException authException) throws IOException, ServletException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setHeader(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
-        OBJECT_MAPPER.writeValue(response.getOutputStream(), new ErrorDto("Unauthorized path"));
+        OBJECT_MAPPER.writeValue(response.getOutputStream(), new ErrorMessageResponse("Unauthorized path") {
+        });
     }
 
 }

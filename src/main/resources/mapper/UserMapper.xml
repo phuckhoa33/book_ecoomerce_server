@@ -13,8 +13,8 @@
 		<result column="ROLEID" property="roleId"></result>
 		<result column="PHONE" property="phone"></result>
 		<result column="BIRTHDAY" property="birthday"></result>
-		<result column="FIRSTNAME" property="firstname"></result>
-        <result column="LASTNAME" property="lastname"></result>
+		<result column="FULLNAME" property="fullname"></result>
+        <result column="USERNAME" property="username"></result>
 		<result column="ADDRESS" property="address"></result>
     </resultMap>
     <select id="getAllUsers" resultMap="userResultMap">
@@ -22,14 +22,45 @@
                 u.PASSWORD,
                 u.AVATAR,
                 u.EMAIL,
-                u.ROLEID,
+                u.ROLE,
                 u.PHONE,
                 u.BIRTHDAY,
-                u.FIRSTNAME,
-                u.LASTNAME,
+                u.FULLNAME,
+                u.USERNAME,
                 u.ADDRESS
-        FROM user u 
+        FROM USER u
         WHERE 1 = 1
+    </select>
+
+
+    <select id="getUserByLastName" resultMap="userResultMap">
+        SELECT  u.ID,
+                u.PASSWORD,
+                u.AVATAR,
+                u.EMAIL,
+                u.ROLE,
+                u.PHONE,
+                u.BIRTHDAY,
+                u.FULLNAME,
+                u.USERNAME,
+                u.ADDRESS
+        FROM USER u
+        WHERE u.username = #{username}
+    </select>
+
+    <select id="getUserByEmail" resultMap="userResultMap">
+        SELECT  u.ID,
+                u.PASSWORD,
+                u.AVATAR,
+                u.EMAIL,
+                u.ROLE,
+                u.PHONE,
+                u.BIRTHDAY,
+                u.FULLNAME,
+                u.USERNAME,
+                u.ADDRESS
+        FROM USER u
+        WHERE u.email = #{email}
     </select>
 
     <select id="getUser" resultMap="userResultMap">
@@ -40,26 +71,25 @@
                 u.ROLE,
                 u.PHONE,
                 u.BIRTHDAY,
-                u.FIRSTNAME,
-                u.LASTNAME,
+                u.FULLNAME,
+                u.USERNAME,
                 u.ADDRESS
-        FROM user u 
+        FROM USER u
         WHERE u.ID = #{userid}
     </select>
 
     <select id="checkEmailExist" resultMap="userResultMap">
-        SELECT
-            u.ID,
-            u.PASSWORD,
-            u.AVATAR,
-            u.EMAIL,
-            u.ROLE,
-            u.PHONE,
-            u.BIRTHDAY,
-            u.FIRSTNAME,
-            u.LASTNAME,
-            u.ADDRESS
-        FROM user u 
+        SELECT  u.ID,
+                u.PASSWORD,
+                u.AVATAR,
+                u.EMAIL,
+                u.ROLE,
+                u.PHONE,
+                u.BIRTHDAY,
+                u.FULLNAME,
+                u.USERNAME,
+                u.ADDRESS
+        FROM USER u
         WHERE u.EMAIL = #{email}
         LIMIT 1
     </select>
@@ -73,8 +103,8 @@
                 ROLE,
                 PHONE,
                 BIRTHDAY,
-                FIRSTNAME,
-                LASTNAME,
+                FULLNAME,
+                USERNAME,
                 ADDRESS
 		) VALUES (
 		#{id}
@@ -84,8 +114,8 @@
 		, #{role}
 		, #{phone}
 		, #{birthday}
-		, #{firstname}
-		, #{lastname}
+		, #{fullname}
+		, #{username}
 		, #{address}
 
 		)
@@ -101,8 +131,8 @@
             EMAIL = #{email},
             PHONE = #{phone},
             BIRTHDAY = #{birthday},
-            FIRSTNAME = #{firstname},
-            LASTNAME = #{lastname},
+            FULLNAME = #{username},
+            USERNAME = #{username},
             ADDRESS = #{address}
         WHERE ID=#{id}
     </update>

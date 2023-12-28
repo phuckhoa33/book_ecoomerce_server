@@ -13,7 +13,11 @@ public interface UserMapper {
 
     void createNewUser(User user);
 
+    User getUserByLastName(@Param("username") String username);
+
     User checkEmailExist(@Param("email") String email);
+
+    User getUserByEmail(@Param("email") String email);
 
     User getUser(@Param("userid") Long userid);
 

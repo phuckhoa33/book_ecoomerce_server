@@ -12,6 +12,8 @@ import org.thymeleaf.context.Context;
 import org.thymeleaf.spring6.SpringTemplateEngine;
 
 import com.phuckhoa.book_ecommerce_server.DTO.EmailDetailsDTO;
+import com.phuckhoa.book_ecommerce_server.DTO.InputEmailData;
+import com.phuckhoa.book_ecommerce_server.DTO.PaymentDetailsDTO;
 import com.phuckhoa.book_ecommerce_server.DTO.PaymentEmailDetailsDTO;
 import com.phuckhoa.book_ecommerce_server.service.EmailService;
 
@@ -37,10 +39,13 @@ public class EmailServiceImpl implements EmailService {
 
     // Method 1
     // To send a simple email
-    public String sendSimpleMail(PaymentEmailDetailsDTO paymentDetails, String template) {
-        EmailDetailsDTO details = paymentDetails.getEmailDetails();
+    public String sendSimpleMail(InputEmailData detail, String template) {
+        EmailDetailsDTO details = detail.getDetail();
+
         try {
             Context context = new Context();
+
+            context.setVariable("path", details.getVariables().getPath());
 
             String process = templateEngine.process(template, context);
             MimeMessage mimeMessage = javaMailSender.createMimeMessage();
@@ -55,6 +60,7 @@ public class EmailServiceImpl implements EmailService {
 
         // Catch block to handle the exceptions
         catch (Exception e) {
+            e.printStackTrace();
             return "Error while Sending Mail";
         }
     }
@@ -65,7 +71,7 @@ public class EmailServiceImpl implements EmailService {
         // Creating a mime message
         MimeMessage mimeMessage = javaMailSender.createMimeMessage();
         MimeMessageHelper mimeMessageHelper;
-        EmailDetailsDTO details = paymentDetails.getEmailDetails();
+        PaymentDetailsDTO details = paymentDetails.getEmailDetails();
 
         try {
 
@@ -95,6 +101,29 @@ public class EmailServiceImpl implements EmailService {
 
             // Display message when exception occurred
             return "Error while sending mail!!!";
+        }
+    }
+
+    @Override
+    public String sendSimpleMailWithPayment(PaymentEmailDetailsDTO paymentDetails, String template) {
+        PaymentDetailsDTO details = paymentDetails.getEmailDetails();
+        try {
+            Context context = new Context();
+
+            String process = templateEngine.process(template, context);
+            MimeMessage mimeMessage = javaMailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage);
+            helper.setSubject("Welcome " + details.getSubject());
+            helper.setText(process, true);
+            helper.setTo(details.getRecipient());
+            javaMailSender.send(mimeMessage);
+            return "Sent";
+
+        }
+
+        // Catch block to handle the exceptions
+        catch (Exception e) {
+            return "Error while Sending Mail";
         }
     }
 }

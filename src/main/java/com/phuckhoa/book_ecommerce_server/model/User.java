@@ -21,8 +21,8 @@ public class User implements UserDetails {
     private Long roleId;
     private String phone;
     private String birthday;
-    private String firstname;
-    private String lastname;
+    private String fullname;
+    private String username;
     private String address;
     private Role role;
 
@@ -33,7 +33,7 @@ public class User implements UserDetails {
 
     @Override
     public String getUsername() {
-        return getEmail();
+        return username;
     }
 
     @Override

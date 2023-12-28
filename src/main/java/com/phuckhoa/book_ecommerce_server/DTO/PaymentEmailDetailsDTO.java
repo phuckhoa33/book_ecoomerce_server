@@ -20,6 +20,6 @@ public class PaymentEmailDetailsDTO {
     private Bill bill;
     private User user;
     private List<Book> bookItems;
-    private EmailDetailsDTO emailDetails;
+    private PaymentDetailsDTO emailDetails;
     private List<Discount> discountsService;
 }

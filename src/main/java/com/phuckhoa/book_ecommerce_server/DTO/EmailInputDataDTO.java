@@ -11,5 +11,4 @@ import lombok.Setter;
 @Setter
 public class EmailInputDataDTO {
     private String email;
-    private String sessionid;
 }

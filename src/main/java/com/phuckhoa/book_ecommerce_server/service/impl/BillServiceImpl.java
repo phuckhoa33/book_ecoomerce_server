@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.phuckhoa.book_ecommerce_server.DTO.BillInputDataDTO;
 import com.phuckhoa.book_ecommerce_server.DTO.EmailDetailsDTO;
+import com.phuckhoa.book_ecommerce_server.DTO.PaymentDetailsDTO;
 import com.phuckhoa.book_ecommerce_server.DTO.PaymentEmailDetailsDTO;
 import com.phuckhoa.book_ecommerce_server.mapper.BillDiscountMapper;
 import com.phuckhoa.book_ecommerce_server.mapper.BillItemMapper;
@@ -122,13 +123,13 @@ public class BillServiceImpl implements BillService {
             try {
 
                 PaymentEmailDetailsDTO paymentEmail = new PaymentEmailDetailsDTO();
-                EmailDetailsDTO emailDetails = new EmailDetailsDTO();
+                PaymentDetailsDTO emailDetails = new PaymentDetailsDTO();
                 emailDetails.setRecipient("mphuc8671@gmail.com");
                 emailDetails.setSubject(message[0]);
                 emailDetails.setMsgBody(message[0]);
                 paymentEmail.setEmailDetails(emailDetails);
                 paymentEmail.setBill(newBill);
-                emailService.sendSimpleMail(paymentEmail, "payment");
+                emailService.sendSimpleMailWithPayment(paymentEmail, "payment");
             } catch (Exception e) {
                 // TODO: handle exception
                 message[0] = "Failed to send email";

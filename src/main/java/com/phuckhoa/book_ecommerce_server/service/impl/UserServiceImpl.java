@@ -4,11 +4,16 @@ import java.nio.CharBuffer;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import com.phuckhoa.book_ecommerce_server.DTO.AuthenticationDTO;
 import com.phuckhoa.book_ecommerce_server.DTO.EmailDetailsDTO;
 import com.phuckhoa.book_ecommerce_server.DTO.EmailInputDataDTO;
-import com.phuckhoa.book_ecommerce_server.DTO.PaymentEmailDetailsDTO;
+import com.phuckhoa.book_ecommerce_server.DTO.EmailVariable;
+import com.phuckhoa.book_ecommerce_server.DTO.InputEmailData;
+import com.phuckhoa.book_ecommerce_server.config.JwtService;
 import com.phuckhoa.book_ecommerce_server.mapper.UserMapper;
 import com.phuckhoa.book_ecommerce_server.model.User;
 import com.phuckhoa.book_ecommerce_server.service.EmailService;
@@ -25,10 +30,16 @@ public class UserServiceImpl implements UserService {
     ExtraService extraService;
 
     @Autowired
+    JwtService jwtService;
+
+    @Autowired
     EmailService emailService;
 
     @Autowired
     PasswordEncoder passwordEncoder;
+
+    @Value("${frontend.url}")
+    private String frontendPath;
 
     @Override
     public List<User> getAllUsers() {
@@ -41,41 +52,75 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String register(User user) {
+    public AuthenticationDTO register(User user) {
         User oldUser = userMapper.checkEmailExist(user.getEmail());
         if (oldUser != null) {
-            return "Account is exist";
+            return AuthenticationDTO.builder()
+                    .message("Account is exist")
+                    .token(null)
+                    .build();
         }
         user.setId(extraService.createRandomId(10));
         user.setPassword(passwordEncoder.encode(CharBuffer.wrap(user.getPassword())));
         this.createNewUser(user);
-        return "Register is successfully";
+
+        String token = jwtService.generateToken(user);
+
+        return AuthenticationDTO.builder()
+                .message("Register is successfully")
+                .token(token)
+                .build();
     }
 
     @Override
-    public String login(User user) {
+    public AuthenticationDTO login(User user) {
         User oldUser = userMapper.checkEmailExist(user.getEmail());
         if (oldUser == null) {
-            return "Account is not exist";
+            return AuthenticationDTO.builder()
+                    .message("Account is not exist")
+                    .token(null)
+                    .build();
         }
 
         if (!passwordEncoder.matches(CharBuffer.wrap(user.getPassword()), oldUser.getPassword())) {
-            return "Password is not match";
+
+            return AuthenticationDTO.builder()
+                    .message("Password is not match")
+                    .token(null)
+                    .build();
         }
-        return "Login is successfuly";
+
+        String token = jwtService.generateToken(user);
+        return AuthenticationDTO.builder()
+                .message("Login is successfuly")
+                .token(token)
+                .build();
     }
 
     @Override
-    public String sendEmail(EmailInputDataDTO request) {
+    public String sendEmail(EmailInputDataDTO data) {
         String message = "Send Email is successfully";
+        User user = userMapper.getUserByEmail(data.getEmail());
         try {
-            PaymentEmailDetailsDTO payment = new PaymentEmailDetailsDTO();
+            // Create token
+            String token = jwtService.generateToken(user);
+
+            // End path
+            String endPath = frontendPath + "createNewPassword/" + token;
+
+            InputEmailData emailData = new InputEmailData();
             EmailDetailsDTO details = new EmailDetailsDTO();
-            details.setRecipient(request.getEmail());
+            details.setRecipient(data.getEmail());
             details.setSubject(message);
-            payment.setEmailDetails(details);
-            emailService.sendSimpleMail(payment, "resetPasswordLetter");
+            EmailVariable variables = EmailVariable.builder()
+                    .path(endPath)
+                    .build();
+            details.setVariables(variables);
+            emailData.setDetail(details);
+
+            emailService.sendSimpleMail(emailData, "resetPasswordLetter");
         } catch (Exception e) {
+            e.printStackTrace();
             message = "Send email is failed";
         }
 

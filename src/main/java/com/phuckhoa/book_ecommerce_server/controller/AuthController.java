@@ -18,7 +18,7 @@ import com.phuckhoa.book_ecommerce_server.model.User;
 import com.phuckhoa.book_ecommerce_server.service.UserService;
 
 @RestController
-@CrossOrigin("https://book-ecommerce-client-d13f867272e7.herokuapp.com/")
+@CrossOrigin("*")
 @RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
@@ -32,14 +32,7 @@ public class AuthController {
         HashMap<String, Object> result = new HashMap<>();
         try {
 
-            String message = userService.register(user);
-
-            String token = null;
-            if (message.equals("Register is successfully")) {
-
-                token = jwtService.generateToken(user);
-            }
-            AuthenticationDTO data = new AuthenticationDTO(token, message);
+            AuthenticationDTO data = userService.register(user);
             result.put("success", true);
             result.put("message", "Success to call API register");
             result.put("data", data);
@@ -58,13 +51,7 @@ public class AuthController {
         HashMap<String, Object> result = new HashMap<>();
         try {
 
-            String message = userService.login(user);
-            String token = null;
-            if (message.equals("Login is successfuly")) {
-
-                token = jwtService.generateToken(user);
-            }
-            AuthenticationDTO data = new AuthenticationDTO(token, message);
+            AuthenticationDTO data = userService.login(user);
             result.put("success", true);
             result.put("message", "Success to call API GetAllUsers");
             result.put("data", data);

@@ -21,7 +21,7 @@ import com.phuckhoa.book_ecommerce_server.model.Book;
 import com.phuckhoa.book_ecommerce_server.service.BookService;
 
 @RestController
-@CrossOrigin("https://book-ecommerce-client-d13f867272e7.herokuapp.com/")
+@CrossOrigin("*")
 @RequestMapping("/api/book")
 public class BookController {
     @Autowired
