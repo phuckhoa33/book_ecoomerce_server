@@ -1,9 +1,11 @@
 package com.phuckhoa.book_ecommerce_server.controller;
 
+import java.nio.CharBuffer;
 import java.util.HashMap;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -26,6 +28,9 @@ public class AuthController {
 
     @Autowired
     JwtService jwtService;
+
+    @Autowired
+    PasswordEncoder passwordEncoder;
 
     @PostMapping("/register")
     ResponseEntity<?> register(@RequestBody User user) {
@@ -65,36 +70,37 @@ public class AuthController {
         return ResponseEntity.ok(result);
     }
 
-    @PostMapping("forgotPassword")
+    @PostMapping("forgot-password")
     ResponseEntity<?> sendEmail(@RequestBody EmailInputDataDTO request) {
         HashMap<String, Object> result = new HashMap<>();
         try {
 
             String data = userService.sendEmail(request);
             result.put("success", true);
-            result.put("message", "Success to call API GetAllUsers");
+            result.put("message", "Success to call API Send Email for reset password");
             result.put("data", data);
         } catch (Exception e) {
             result.put("success", false);
-            result.put("message", "Fail to call API GetAllUsers");
+            result.put("message", "Fail to call API Send Email for reset password");
             result.put("data", null);
             e.printStackTrace();
         }
         return ResponseEntity.ok(result);
     }
 
-    @PutMapping()
+    @PutMapping("/reset-password")
     ResponseEntity<?> resetPassword(@RequestBody User user) {
         HashMap<String, Object> result = new HashMap<>();
         try {
-
-            String data = userService.updateUser(user);
+            String hashedNewPassword = passwordEncoder.encode(CharBuffer.wrap(user.getPassword()));
+            user.setPassword(hashedNewPassword);
+            AuthenticationDTO data = userService.updateUser(user);
             result.put("success", true);
-            result.put("message", "Success to call API GetAllUsers");
+            result.put("message", "Success to call API reset password");
             result.put("data", data);
         } catch (Exception e) {
             result.put("success", false);
-            result.put("message", "Fail to call API GetAllUsers");
+            result.put("message", "Fail to call API reset password");
             result.put("data", null);
             e.printStackTrace();
         }

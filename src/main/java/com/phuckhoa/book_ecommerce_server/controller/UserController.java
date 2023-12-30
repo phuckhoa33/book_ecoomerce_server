@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.phuckhoa.book_ecommerce_server.DTO.AuthenticationDTO;
 import com.phuckhoa.book_ecommerce_server.model.User;
 import com.phuckhoa.book_ecommerce_server.service.UserService;
 
@@ -44,7 +45,7 @@ public class UserController {
         return ResponseEntity.ok(result);
     }
 
-    @GetMapping("/getUser")
+    @GetMapping("/get-user")
     public ResponseEntity<?> getUser(@NonNull HttpServletRequest request) {
         HashMap<String, Object> result = new HashMap<>();
 
@@ -87,7 +88,7 @@ public class UserController {
         HashMap<String, Object> result = new HashMap<>();
         try {
 
-            String data = userService.updateUser(user);
+            AuthenticationDTO data = userService.updateUser(user);
             result.put("success", true);
             result.put("message", "Success to call API for bill process");
             result.put("data", data);

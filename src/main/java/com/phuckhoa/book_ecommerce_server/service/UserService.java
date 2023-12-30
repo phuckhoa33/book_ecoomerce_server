@@ -17,7 +17,7 @@ public interface UserService {
 
     String sendEmail(EmailInputDataDTO request);
 
-    String updateUser(User user);
+    AuthenticationDTO updateUser(User user);
 
     User getUserById(String userid);
 

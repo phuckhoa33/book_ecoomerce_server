@@ -106,7 +106,7 @@ public class UserServiceImpl implements UserService {
             String token = jwtService.generateToken(user);
 
             // End path
-            String endPath = frontendPath + "createNewPassword/" + token;
+            String endPath = frontendPath + "reset-password/" + token;
 
             InputEmailData emailData = new InputEmailData();
             EmailDetailsDTO details = new EmailDetailsDTO();
@@ -128,21 +128,24 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public String updateUser(User user) {
+    public AuthenticationDTO updateUser(User user) {
         String message = "Update user is successfully";
+        String token = null;
         try {
-            if (user.getPassword().length() < 50) {
-                user.setPassword(passwordEncoder.encode(CharBuffer.wrap(user.getPassword())));
-            }
             User findedUser = userMapper.checkEmailExist(user.getEmail());
+            if (findedUser == null) {
+                return AuthenticationDTO.builder().message("This user is not exist").token(token).build();
+            }
             user.setId(findedUser.getId());
             userMapper.updateUser(user);
+            token = jwtService.generateToken(user);
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
             message = "Update user is failed";
         }
-        return message;
+
+        return AuthenticationDTO.builder().message(message).token(token).build();
     }
 
     @Override
