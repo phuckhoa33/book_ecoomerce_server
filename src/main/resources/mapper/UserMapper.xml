@@ -1,0 +1,141 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.phuckhoa.book_ecommerce_server.mapper.UserMapper">
+    <resultMap id="userResultMap"
+        type="com.phuckhoa.book_ecommerce_server.model.User"
+    >
+        <result column="ID" property="id"></result>
+		<result column="PASSWORD" property="password"></result>
+		<result column="AVATAR" property="avatar"></result>
+		<result column="EMAIL" property="email"></result>
+		<result column="ROLEID" property="roleId"></result>
+		<result column="PHONE" property="phone"></result>
+		<result column="BIRTHDAY" property="birthday"></result>
+		<result column="FULLNAME" property="fullname"></result>
+        <result column="USERNAME" property="username"></result>
+		<result column="ADDRESS" property="address"></result>
+    </resultMap>
+    <select id="getAllUsers" resultMap="userResultMap">
+        SELECT  u.ID,
+                u.PASSWORD,
+                u.AVATAR,
+                u.EMAIL,
+                u.ROLE,
+                u.PHONE,
+                u.BIRTHDAY,
+                u.FULLNAME,
+                u.USERNAME,
+                u.ADDRESS
+        FROM USER u
+        WHERE 1 = 1
+    </select>
+
+
+    <select id="getUserByLastName" resultMap="userResultMap">
+        SELECT  u.ID,
+                u.PASSWORD,
+                u.AVATAR,
+                u.EMAIL,
+                u.ROLE,
+                u.PHONE,
+                u.BIRTHDAY,
+                u.FULLNAME,
+                u.USERNAME,
+                u.ADDRESS
+        FROM USER u
+        WHERE u.username = #{username}
+    </select>
+
+    <select id="getUserByEmail" resultMap="userResultMap">
+        SELECT  u.ID,
+                u.PASSWORD,
+                u.AVATAR,
+                u.EMAIL,
+                u.ROLE,
+                u.PHONE,
+                u.BIRTHDAY,
+                u.FULLNAME,
+                u.USERNAME,
+                u.ADDRESS
+        FROM USER u
+        WHERE u.email = #{email}
+    </select>
+
+    <select id="getUser" resultMap="userResultMap">
+        SELECT  u.ID,
+                u.PASSWORD,
+                u.AVATAR,
+                u.EMAIL,
+                u.ROLE,
+                u.PHONE,
+                u.BIRTHDAY,
+                u.FULLNAME,
+                u.USERNAME,
+                u.ADDRESS
+        FROM USER u
+        WHERE u.ID = #{userid}
+    </select>
+
+    <select id="checkEmailExist" resultMap="userResultMap">
+        SELECT  u.ID,
+                u.PASSWORD,
+                u.AVATAR,
+                u.EMAIL,
+                u.ROLE,
+                u.PHONE,
+                u.BIRTHDAY,
+                u.FULLNAME,
+                u.USERNAME,
+                u.ADDRESS
+        FROM USER u
+        WHERE u.EMAIL = #{email}
+        LIMIT 1
+    </select>
+
+    <insert id="createNewUser">
+		INSERT INTO user (
+		        ID,
+                PASSWORD,
+                AVATAR,
+                EMAIL,
+                ROLE,
+                PHONE,
+                BIRTHDAY,
+                FULLNAME,
+                USERNAME,
+                ADDRESS
+		) VALUES (
+		#{id}
+		, #{password}
+		, #{avatar}
+		, #{email}
+		, #{role}
+		, #{phone}
+		, #{birthday}
+		, #{fullname}
+		, #{username}
+		, #{address}
+
+		)
+
+
+
+	</insert>
+
+    <update id="updateUser">
+        UPDATE user 
+        SET PASSWORD = #{password},
+            AVATAR = #{avatar},
+            EMAIL = #{email},
+            PHONE = #{phone},
+            BIRTHDAY = #{birthday},
+            FULLNAME = #{username},
+            USERNAME = #{username},
+            ADDRESS = #{address}
+        WHERE ID=#{id}
+    </update>
+
+    
+</mapper>
